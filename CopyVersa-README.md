@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/copyversa.svg)](https://chrome.google.com/webstore/detail/copyversa)
-[![Build Status](https://github.com/oddradiocircle/copyversa-chrome-ext/workflows/CI/badge.svg)](https://github.com/oddradiocircle/copyversa-chrome-ext/actions)
+[![Build Status](https://github.com/danielsaidi/copyversa-chrome-ext/workflows/CI/badge.svg)](https://github.com/danielsaidi/copyversa-chrome-ext/actions)
 
 CopyVersa v2 is a powerful Chrome extension that allows you to select and copy content from web pages in multiple formats (Markdown, HTML, and Plain Text) with an intuitive visual interface. This is a complete rewrite of the popular CopyVersa userscript, now as a native Chrome extension.
 
@@ -26,7 +26,7 @@ CopyVersa v2 is a powerful Chrome extension that allows you to select and copy c
 
 2. **From Source** (Development)
    ```bash
-   git clone https://github.com/oddradiocircle/copyversa-chrome-ext.git
+   git clone https://github.com/danielsaidi/copyversa-chrome-ext.git
    cd copyversa-chrome-ext
    npm install
    npm run build
@@ -57,7 +57,7 @@ CopyVersa v2 is a powerful Chrome extension that allows you to select and copy c
 
 ```bash
 # Clone the repository
-git clone https://github.com/oddradiocircle/copyversa-chrome-ext.git
+git clone https://github.com/danielsaidi/copyversa-chrome-ext.git
 cd copyversa-chrome-ext
 
 # Install dependencies
@@ -179,9 +179,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙋‍♂️ Support
 
-- **Issues**: [GitHub Issues](https://github.com/oddradiocircle/copyversa-chrome-ext/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/oddradiocircle/copyversa-chrome-ext/discussions)
-- **Email**: daniel@gomezpadilla.com
+- **Issues**: [GitHub Issues](https://github.com/danielsaidi/copyversa-chrome-ext/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/danielsaidi/copyversa-chrome-ext/discussions)
+- **Email**: daniel.saidi@gmail.com
 
 ## 🙏 Acknowledgments
 
@@ -192,4 +192,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Made with ❤️ by [Daniel Gómez Padilla](https://github.com/oddradiocircle)**
+**Made with ❤️ by [Daniel Saidi](https://github.com/danielsaidi)**

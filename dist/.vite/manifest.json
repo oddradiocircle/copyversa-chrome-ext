@@ -1,0 +1,64 @@
+{
+  "../../../../../../@crx/manifest": {
+    "file": "assets/chunk-Byz_Iu1v.js",
+    "name": "crx-manifest.js",
+    "src": "../../../../../../@crx/manifest",
+    "isEntry": true
+  },
+  "_chunk-B5Qt9EMX.js": {
+    "file": "assets/chunk-B5Qt9EMX.js",
+    "name": "modulepreload-polyfill"
+  },
+  "_chunk-DTl7Fbt_.js": {
+    "file": "assets/chunk-DTl7Fbt_.js",
+    "name": "client"
+  },
+  "index.ts-loader.js": {
+    "file": "assets/index.ts-loader-CzndjV5Y.js",
+    "src": "index.ts-loader.js"
+  },
+  "options.html": {
+    "file": "assets/chunk-Dik-4huI.js",
+    "name": "options.html",
+    "src": "options.html",
+    "isEntry": true,
+    "imports": [
+      "_chunk-B5Qt9EMX.js",
+      "_chunk-DTl7Fbt_.js"
+    ],
+    "css": [
+      "assets/options-DMHERPtB.css"
+    ]
+  },
+  "popup.html": {
+    "file": "assets/chunk-x5ei4OpY.js",
+    "name": "popup.html",
+    "src": "popup.html",
+    "isEntry": true,
+    "imports": [
+      "_chunk-B5Qt9EMX.js",
+      "_chunk-DTl7Fbt_.js"
+    ],
+    "css": [
+      "assets/popup-DA2nfM7A.css"
+    ]
+  },
+  "src/background/index.ts": {
+    "file": "assets/chunk-BBHgvwey.js",
+    "name": "index.ts",
+    "src": "src/background/index.ts",
+    "isEntry": true
+  },
+  "src/contentScript/index.ts": {
+    "file": "assets/chunk-COjCpS_a.js",
+    "name": "index.ts",
+    "src": "src/contentScript/index.ts",
+    "isEntry": true,
+    "imports": [
+      "_chunk-DTl7Fbt_.js"
+    ],
+    "css": [
+      "assets/index-D5giiajG.css"
+    ]
+  }
+}

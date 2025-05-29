@@ -1,0 +1,33 @@
+/* Estilos para elementos del documento */
+.cpvrsa-hover-highlight {
+    outline: 2px solid #f97e4d !important;
+}
+
+.cpvrsa-selected-highlight {
+    background: rgba(249, 126, 77, 0.2) !important;
+}
+
+.cpvrsa-selecting * {
+    cursor: default !important;
+}
+
+.cpvrsa-selecting.multi-select * {
+    cursor: copy !important;
+}
+
+@keyframes cpvrsa-fade {
+    0% {
+        background-color: var(--highlight-bg-color, rgba(249, 126, 77, 0.2)) !important;
+    }
+    100% {
+        background-color: var(--original-bg-color, transparent) !important;
+    }
+}
+
+.cpvrsa-selected-highlight.fade-out {
+    animation: cpvrsa-fade 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+.cpvrsa-selected-highlight {
+    background-color: var(--highlight-bg-color, rgba(249, 126, 77, 0.2)) !important;
+}

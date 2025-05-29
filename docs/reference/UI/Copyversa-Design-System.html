@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Diseño | Light & Dark Mode | Documentación Técnica, Usos y Ejemplos</title>
+    <style>
+        /* Design Tokens y Variables Fundamentales */
+        :root {
+            /* Colores */
+            --coral: #f97e4d;
+            --eerie-black: #181818;
+            --white: #ffffff;
+            --baby-powder: #f8f7f2;
+            --linen: #ede4dc;
+            --antiflash-white: #ededed;
+            --dark-background: #2c2c2c;
+            --dark-surface: #3c3c3c;
+            --dark-text: #e0e0e0;
+            --dark-border: #555555;
+
+            /* Tipografía */
+            --font-mono: 'Monaco', 'Consolas', monospace;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+            /* Espaciado */
+            --spacing-base: 6px;
+
+            /* Sombras */
+            --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
+
+            /* Transiciones */
+            --transition-hover: background-color 0.2s ease-in-out;
+        }
+
+        body {
+            font-family: var(--font-family);
+            line-height: 1.4;
+            color: var(--eerie-black);
+            padding: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--baby-powder);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: var(--dark-background);
+                color: var(--dark-text);
+            }
+        }
+
+        /* Estilos de Documentación */
+        .docs-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--white);
+            border-radius: 6px;
+            box-shadow: var(--shadow-sm);
+            transition: background-color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .docs-section {
+                background: var(--dark-surface);
+            }
+        }
+
+        .docs-title {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--eerie-black);
+            transition: color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .docs-title {
+                color: var(--dark-text);
+            }
+        }
+
+        .docs-subtitle {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.375rem;
+            border-bottom: 2px solid var(--linen);
+            color: var(--eerie-black);
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .docs-subtitle {
+                color: var(--dark-text);
+                border-bottom-color: var(--dark-border);
+            }
+        }
+
+        .color-value {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-family: var(--font-mono);
+            padding: 0.1875rem 0.375rem;
+            border-radius: 3px;
+            background: var(--baby-powder);
+            transition: background-color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .color-value {
+                background: var(--dark-surface);
+            }
+        }
+
+        .color-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .spec-block {
+            background: var(--baby-powder);
+            padding: 1.125rem;
+            border-radius: 6px;
+            margin-bottom: 1.125rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            transition: background-color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .spec-block {
+                background: var(--dark-surface);
+            }
+        }
+
+        .component-demo {
+            padding: 1.5rem;
+            background: var(--white);
+            border: 1px solid var(--linen);
+            border-radius: 6px;
+            margin: 0.75rem 0;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .component-demo {
+                background: var(--dark-surface);
+                border-color: var(--dark-border);
+            }
+        }
+
+        /* Componentes del Sistema */
+
+        /* Radio Buttons Mejorados */
+        .radio-input {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--eerie-black);
+            border-radius: 50%;
+            margin: 0;
+            cursor: pointer;
+            position: relative;
+            background-color: var(--white);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .radio-input:checked {
+            background-color: var(--eerie-black);
+        }
+
+        .radio-input:checked::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            background-color: var(--white);
+            border-radius: 50%;
+        }
+
+        .radio-input:disabled {
+            border-color: var(--antiflash-white);
+            background-color: var(--antiflash-white);
+            cursor: not-allowed;
+        }
+
+        .radio-input:disabled:checked::after {
+            background-color: rgba(24, 24, 24, 0.5);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .radio-input {
+                border-color: var(--dark-text);
+                background-color: var(--dark-surface);
+            }
+
+            .radio-input:checked {
+                background-color: var(--baby-powder);
+            }
+
+            .radio-input:checked::after {
+                background-color: var(--dark-surface);
+            }
+
+            .radio-input:disabled {
+                border-color: var(--dark-border);
+                background-color: var(--dark-border);
+            }
+
+            .radio-input:disabled:checked::after {
+                background-color: rgba(224, 224, 224, 0.5);
+            }
+        }
+
+        /* Checkboxes Mejorados */
+        .checkbox-input {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--eerie-black);
+            border-radius: 4px;
+            margin: 0;
+            cursor: pointer;
+            position: relative;
+            background-color: var(--white);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .checkbox-input:checked {
+            background-color: var(--eerie-black);
+        }
+
+        .checkbox-input:checked::after {
+            content: "";
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            width: 10px;
+            height: 5px;
+            border-left: 2px solid var(--white);
+            border-bottom: 2px solid var(--white);
+        }
+
+        .checkbox-input:disabled {
+            border-color: var(--antiflash-white);
+            background-color: var(--antiflash-white);
+            cursor: not-allowed;
+        }
+
+        .checkbox-input:disabled:checked {
+            background-color: var(--antiflash-white);
+        }
+
+        .checkbox-input:disabled:checked::after {
+            border-color: rgba(24, 24, 24, 0.5);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .checkbox-input {
+                border-color: var(--dark-text);
+                background-color: var(--dark-surface);
+            }
+
+            .checkbox-input:checked {
+                background-color: var(--baby-powder);
+            }
+
+            .checkbox-input:checked::after {
+                border-color: var(--dark-surface);
+            }
+
+            .checkbox-input:disabled {
+                border-color: var(--dark-border);
+                background-color: var(--dark-border);
+            }
+
+            .checkbox-input:disabled:checked {
+                background-color: var(--dark-border);
+            }
+
+            .checkbox-input:disabled:checked::after {
+                border-color: rgba(224, 224, 224, 0.5);
+            }
+        }
+
+        /* Tags Mejorados */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 100px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .tag-large {
+            height: 32px;
+            padding: 0 18px;
+            font-size: 14px;
+        }
+
+        .tag-small {
+            height: 26px;
+            padding: 0 12px;
+            font-size: 12px;
+        }
+
+        .tag-primary {
+            background-color: var(--coral);
+            color: var(--white);
+        }
+
+        .tag-secondary {
+            background-color: var(--baby-powder);
+            color: var(--eerie-black);
+        }
+
+        .tag-light {
+            background-color: var(--linen);
+            color: var(--eerie-black);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .tag-primary {
+                color: var(--dark-surface);
+            }
+
+            .tag-secondary {
+                background-color: var(--linen);
+                color: var(--dark-surface);
+            }
+
+            .tag-light {
+                background-color: var(--dark-border);
+                color: var(--dark-text);
+            }
+        }
+
+        /* Sistema de Grid */
+        .grid {
+            display: grid;
+            gap: 1.125rem;
+        }
+
+        .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+        /* Utilidades de Espaciado */
+        .mt-4 { margin-top: 0.75rem; }
+        .mb-4 { margin-bottom: 0.75rem; }
+        .gap-4 { gap: 0.75rem; }
+
+        /* Contenedores de Demostración */
+        .demo-grid {
+            background: var(--baby-powder);
+            padding: 0.75rem;
+            border-radius: 6px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .demo-grid {
+                background: var(--dark-background);
+            }
+        }
+
+        /* Botones */
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            padding: 0 18px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-hover);
+            text-decoration: none;
+            line-height: 1;
+        }
+
+        .button-primary {
+            background: var(--eerie-black);
+            color: var(--white);
+        }
+
+        .button-primary:hover {
+            background: rgba(24, 24, 24, 0.9);
+        }
+
+        .button-secondary {
+            background: var(--white);
+            color: var(--eerie-black);
+            border: 2px solid var(--eerie-black);
+        }
+
+        .button-secondary:hover {
+            background: var(--baby-powder);
+        }
+
+        .button-tertiary {
+            background: var(--linen);
+            color: var(--eerie-black);
+        }
+
+        .button-tertiary:hover {
+            background: #e5d9d0;
+        }
+
+        .button-selected {
+            background: var(--coral);
+            color: var(--white);
+        }
+
+        .button-selected:hover {
+            background: #f86b33;
+        }
+
+        .button-small {
+            height: 26px;
+            padding: 0 12px;
+            font-size: 12px;
+        }
+
+        .button-large {
+            height: 38px;
+            padding: 0 24px;
+            font-size: 16px;
+        }
+
+        .button:disabled {
+            cursor: not-allowed;
+            background: var(--antiflash-white);
+            color: rgba(24, 24, 24, 0.5);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .button-primary {
+                background: var(--baby-powder);
+                color: var(--dark-surface);
+            }
+
+            .button-primary:hover {
+                background: #ffffff;
+            }
+
+            .button-secondary {
+                background: var(--dark-surface);
+                color: var(--dark-text);
+                border: 2px solid var(--dark-text);
+            }
+
+            .button-secondary:hover {
+                background: var(--dark-border);
+            }
+
+            .button-tertiary {
+                background: var(--dark-border);
+                color: var(--dark-text);
+            }
+
+            .button-tertiary:hover {
+                background: #444444;
+            }
+
+            .button-selected {
+                color: var(--dark-surface);
+            }
+
+            .button-selected:hover {
+                background: #f86b33;
+            }
+
+            .button:disabled {
+                background: var(--dark-border);
+                color: rgba(224, 224, 224, 0.5);
+            }
+        }
+
+        /* Sistema de Espaciado */
+        .space-example {
+            background: var(--coral);
+            margin-bottom: 0.375rem;
+            border-radius: 3px;
+        }
+
+        .space-3xs { height: 2px; }
+        .space-2xs { height: 4px; }
+        .space-xs { height: 6px; }
+        .space-sm { height: 9px; }
+        .space-md { height: 12px; }
+        .space-lg { height: 18px; }
+        .space-xl { height: 24px; }
+        .space-2xl { height: 36px; }
+        .space-3xl { height: 48px; }
+
+        /* Sistema de Bordes */
+        .radius-example {
+            width: 80px;
+            height: 80px;
+            background: var(--coral);
+            margin: 0.375rem;
+        }
+
+        .radius-xs { border-radius: 2px; }
+        .radius-sm { border-radius: 4px; }
+        .radius-md { border-radius: 6px; }
+        .radius-lg { border-radius: 12px; }
+        .radius-xl { border-radius: 18px; }
+        .radius-full { border-radius: 9999px; }
+
+        /* Sistema de Sombras */
+        .shadow-example {
+            width: 160px;
+            height: 80px;
+            background: var(--white);
+            margin: 0.375rem;
+            border-radius: 6px;
+        }
+
+        .shadow-xs { box-shadow: var(--shadow-xs); }
+        .shadow-sm { box-shadow: var(--shadow-sm); }
+        .shadow-md { box-shadow: var(--shadow-md); }
+        .shadow-lg { box-shadow: var(--shadow-lg); }
+        .shadow-xl { box-shadow: var(--shadow-xl); }
+
+        @media (prefers-color-scheme: dark) {
+            .shadow-example {
+                background: var(--dark-border);
+            }
+        }
+
+        /* Sistema de Textos y Títulos */
+        .text-xs { font-size: 0.625rem; }
+        .text-sm { font-size: 0.75rem; }
+        .text-base { font-size: 0.875rem; }
+        .text-lg { font-size: 1rem; }
+        .text-xl { font-size: 1.125rem; }
+        .text-2xl { font-size: 1.25rem; }
+        .text-3xl { font-size: 1.5rem; }
+        .text-4xl { font-size: 1.875rem; }
+        .text-5xl { font-size: 2.25rem; }
+        .text-6xl { font-size: 3rem; }
+
+        .font-light { font-weight: 300; }
+        .font-normal { font-weight: 400; }
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
+        .font-bold { font-weight: 700; }
+
+        .leading-tight { line-height: 1.25; }
+        .leading-snug { line-height: 1.375; }
+        .leading-normal { line-height: 1.5; }
+        .leading-relaxed { line-height: 1.625; }
+        .leading-loose { line-height: 2; }
+
+        .text-primary { color: var(--eerie-black); }
+        .text-secondary { color: var(--coral); }
+        .text-light { color: var(--white); }
+        .text-dark { color: var(--eerie-black); }
+
+        @media (prefers-color-scheme: dark) {
+            .text-primary { color: var(--dark-text); }
+            .text-light { color: var(--dark-surface); }
+            .text-dark { color: var(--dark-text); }
+        }
+
+        /* Ejemplos de Textos y Títulos */
+        h1 { font-size: 2.25rem; font-weight: 700; }
+        h2 { font-size: 1.875rem; font-weight: 600; }
+        h3 { font-size: 1.5rem; font-weight: 500; }
+        h4 { font-size: 1.25rem; font-weight: 500; }
+        h5 { font-size: 1rem; font-weight: 500; }
+        h6 { font-size: 0.875rem; font-weight: 500; }
+
+        a { color: var(--coral); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        a:visited { color: #d6623b; }
+
+        blockquote {
+            border-left: 4px solid var(--coral);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="docs-section">
+        <h1 class="docs-title">Sistema de Diseño</h1>
+        <p>Documentación técnica exhaustiva del sistema de diseño, incluyendo tokens, componentes y utilidades.</p>
+    </div>
+
+    <!-- Fundamentos -->
+    <div class="docs-section">
+        <h2 class="docs-subtitle">Fundamentos del Sistema</h2>
+        
+        <h3>Paleta de Colores</h3>
+        <div class="spec-block">
+            <div class="color-value">
+                <span class="color-dot" style="background: #f97e4d"></span>
+                <span style="color: #f97e4d">Primary (Coral): #f97e4d</span>
+            </div>
+            <div class="color-value">
+                <span class="color-dot" style="background: #181818"></span>
+                <span style="color: #181818">Eerie Black: #181818</span>
+            </div>
+            <div class="color-value">
+                <span class="color-dot" style="background: #f8f7f2"></span>
+                <span style="color: #f8f7f2">Surface Light: #f8f7f2</span>
+            </div>
+            <div class="color-value">
+                <span class="color-dot" style="background: #ede4dc"></span>
+                <span style="color: #ede4dc">Surface Medium: #ede4dc</span>
+            </div>
+            <div class="color-value">
+                <span class="color-dot" style="background: #ededed"></span>
+                <span style="color: #ededed">Surface Disabled: #ededed</span>
+            </div>
+        </div>
+
+        <h3>Sistema Tipográfico</h3>
+        <div class="spec-block">
+            Font Family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto<br>
+            <div class="mt-4">
+                Tamaños:<br>
+                • xs: 10px (0.625rem)<br>
+                • sm: 12px (0.75rem)<br>
+                • base: 14px (0.875rem)<br>
+                • lg: 16px (1rem)<br>
+                • xl: 18px (1.125rem)<br>
+                • 2xl: 20px (1.25rem)<br>
+                • 3xl: 24px (1.5rem)
+            </div>
+        </div>
+    </div>
+
+    <!-- Componentes -->
+    <div class="docs-section">
+        <h2 class="docs-subtitle">Componentes</h2>
+
+        <!-- Radio Buttons -->
+        <h3>Radio Buttons</h3>
+        <div class="component-demo">
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="radio" class="radio-input" name="demo" checked>
+                <input type="radio" class="radio-input" name="demo">
+                <input type="radio" class="radio-input" name="demo-disabled" checked disabled>
+                <input type="radio" class="radio-input" name="demo-disabled" disabled>
+            </div>
+        </div>
+        <div class="spec-block">
+            Dimensiones:<br>
+            • Contenedor: 20px × 20px<br>
+            • Punto interior: 6px × 6px<br>
+            • Border: 2px solid<br><br>
+            
+            Estados:<br>
+            • Default: <span style="color: #e0e0e0">border: #e0e0e0</span><br>
+            • Checked: <span style="color: #f97e4d">background: #f97e4d</span><br>
+            • Disabled: <span style="color: #555555">background: #555555</span>
+        </div>
+
+        <!-- Checkboxes -->
+        <h3>Checkboxes</h3>
+        <div class="component-demo">
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="checkbox" class="checkbox-input" checked>
+                <input type="checkbox" class="checkbox-input">
+                <input type="checkbox" class="checkbox-input" checked disabled>
+                <input type="checkbox" class="checkbox-input" disabled>
+            </div>
+        </div>
+        <div class="spec-block">
+            Dimensiones:<br>
+            • Contenedor: 20px × 20px<br>
+            • Check: 10px × 5px<br>
+            • Border radius: 4px<br><br>
+            
+            Estados:<br>
+            • Default: <span style="color: #e0e0e0">border: #e0e0e0</span><br>
+            • Checked: <span style="color: #f97e4d">background: #f97e4d</span><br>
+            • Disabled: <span style="color: #555555">background: #555555</span>
+        </div>
+
+        <!-- Tags -->
+        <h3>Tags</h3>
+        <div class="component-demo">
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                <button class="tag tag-large tag-primary">ALL</button>
+                <button class="tag tag-large tag-secondary">MOODBOARD</button>
+                <button class="tag tag-small tag-light">Ratings</button>
+                <button class="tag tag-small tag-secondary">Clear All</button>
+            </div>
+        </div>
+        <div class="spec-block">
+            Dimensiones:<br>
+            • Large: height: 32px<br>
+            • Small: height: 26px<br>
+            • Padding: 18px (large), 12px (small)<br>
+            • Border radius: 100px<br><br>
+            
+            Variantes:<br>
+            • Primary: <span style="color: #f97e4d">background: #f97e4d</span><br>
+            • Secondary: <span style="color: #3c3c3c">background: #3c3c3c</span><br>
+            • Light: <span style="color: #555555">background: #555555</span>
+        </div>
+
+        <!-- Botones -->
+        <h3>Botones</h3>
+        <div class="component-demo">
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                <button class="button button-primary">Primary Button</button>
+                <button class="button button-secondary">Secondary Button</button>
+                <button class="button button-tertiary">Tertiary Button</button>
+                <button class="button button-selected">Selected Button</button>
+                <button class="button button-primary button-small">Small</button>
+                <button class="button button-primary">Default</button>
+                <button class="button button-primary button-large">Large</button>
+                <button class="button button-primary" disabled>Disabled</button>
+            </div>
+        </div>
+        <div class="spec-block">
+            Dimensiones:<br>
+            • Default: height: 32px<br>
+            • Small: height: 26px<br>
+            • Large: height: 38px<br>
+            • Padding: 18px (default), 12px (small), 24px (large)<br>
+            • Border radius: 100px<br><br>
+            
+            Variantes:<br>
+            • Primary: <span style="color: #f97e4d">background: #f97e4d</span><br>
+            • Secondary: <span style="color: #3c3c3c">background: #3c3c3c</span><br>
+            • Tertiary: <span style="color: #555555">background: #555555</span><br>
+            • Selected: <span style="color: #f97e4d">background: #f97e4d</span>
+        </div>
+    </div>
+
+    <!-- Sistema de Grid -->
+    <div class="docs-section">
+        <h2 class="docs-subtitle">Sistema de Grid</h2>
+        
+        <div class="grid grid-cols-4 mb-4">
+            <div class="demo-grid">1</div>
+            <div class="demo-grid">2</div>
+            <div class="demo-grid">3</div>
+            <div class="demo-grid">4</div>
+        </div>
+
+        <div class="spec-block">
+            Grid System:<br>
+            • Columnas base: 12<br>
+            • Gap: 18px (1.125rem)<br>
+            • Breakpoints:<br>
+            &nbsp;&nbsp;- sm: 640px<br>
+            &nbsp;&nbsp;- md: 768px<br>
+            &nbsp;&nbsp;- lg: 1024px<br>
+            &nbsp;&nbsp;- xl: 1280px
+        </div>
+    </div>
+
+    <!-- Sistema de Espaciado -->
+    <div class="docs-section">
+        <h2 class="docs-subtitle">Sistema de Espaciado</h2>
+        <div class="spec-block">
+            <div class="space-example space-3xs"></div>
+            <div class="space-example space-2xs"></div>
+            <div class="space-example space-xs"></div>
+            <div class="space-example space-sm"></div>
+            <div class="space-example space-md"></div>
+            <div class="space-example space-lg"></div>
+            <div class="space-example space-xl"></div>
+            <div class="space-example space-2xl"></div>
+            <div class="space-example space-3xl"></div>
+        </div>
+        <div class="spec-block">
+            <p>Espaciado en píxeles:</p>
+            <ul>
+                <li>3xs: 2px</li>
+                <li>2xs: 4px</li>
+                <li>xs: 6px</li>
+                <li>sm: 9px</li>
+                <li>md: 12px</li>
+                <li>lg: 18px</li>
+                <li>xl: 24px</li>
+                <li>2xl: 36px</li>
+                <li>3xl: 48px</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Sistema de Bordes -->
+    <div class="docs-section">
+        <h2 class="docs-subtitle">Sistema de Bordes</h2>
+        <div class="spec-block" style="display: flex; flex-wrap: wrap;">
+            <div class="radius-example radius-xs"></div>
+            <div class="radius-example radius-sm"></div>
+            <div class="radius-example radius-md"></div>
+            <div class="radius-example radius-lg"></div>
+            <div class="radius-example radius-xl"></div>
+            <div class="radius-example radius-full"></div>
+        </div>
+        <div class="spec-block">
+            <p>Radios de Borde en píxeles:</p>
+            <ul>
+                <li>xs: 2px</li>
+                <li>sm: 4px</li>
+                <li>md: 6px</li>
+                <li>lg: 12px</li>
+                <li>xl: 18px</li>
+                <li>full: 9999px (círculo completo)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Sistema de Sombras -->
+    <div class="docs-section">
+        <h2 class="docs-subtitle">Sistema de Sombras</h2>
+        <div class="spec-block" style="display: flex; flex-wrap: wrap;">
+            <div class="shadow-example shadow-xs"></div>
+            <div class="shadow-example shadow-sm"></div>
+            <div class="shadow-example shadow-md"></div>
+            <div class="shadow-example shadow-lg"></div>
+            <div class="shadow-example shadow-xl"></div>
+        </div>
+        <div class="spec-block">
+            <p>Sombras:</p>
+            <ul>
+                <li>xs: 0 1px 2px rgba(0,0,0,0.2)</li>
+                <li>sm: 0 1px 3px rgba(0,0,0,0.3)</li>
+                <li>md: 0 4px 6px -1px rgba(0,0,0,0.3)</li>
+                <li>lg: 0 10px 15px -3px rgba(0,0,0,0.3)</li>
+                <li>xl: 0 20px 25px -5px rgba(0,0,0,0.3)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Sistema de Textos y Títulos -->
+    <div class="docs-section">
+        <h2 class="docs-subtitle">Sistema de Textos y Títulos</h2>
+        <div class="spec-block">
+            <p>Tamaños de Texto:</p>
+            <ul>
+                <li>xs: 0.625rem (10px)</li>
+                <li>sm: 0.75rem (12px)</li>
+                <li>base: 0.875rem (14px)</li>
+                <li>lg: 1rem (16px)</li>
+                <li>xl: 1.125rem (18px)</li>
+                <li>2xl: 1.25rem (20px)</li>
+                <li>3xl: 1.5rem (24px)</li>
+                <li>4xl: 1.875rem (30px)</li>
+                <li>5xl: 2.25rem (36px)</li>
+                <li>6xl: 3rem (48px)</li>
+            </ul>
+        </div>
+        <div class="spec-block">
+            <p>Pesos de Fuente:</p>
+            <ul>
+                <li>light: 300</li>
+                <li>normal: 400</li>
+                <li>medium: 500</li>
+                <li>semibold: 600</li>
+                <li>bold: 700</li>
+            </ul>
+        </div>
+        <div class="spec-block">
+            <p>Alturas de Línea:</p>
+            <ul>
+                <li>tight: 1.25</li>
+                <li>snug: 1.375</li>
+                <li>normal: 1.5</li>
+                <li>relaxed: 1.625</li>
+                <li>loose: 2</li>
+            </ul>
+        </div>
+        <div class="spec-block">
+            <p>Colores de Texto:</p>
+            <ul>
+                <li>primary: var(--dark-text)</li>
+                <li>secondary: var(--coral)</li>
+                <li>light: var(--dark-surface)</li>
+                <li>dark: var(--dark-text)</li>
+            </ul>
+        </div>
+
+        <!-- Ejemplos de Textos y Títulos -->
+        <div class="spec-block">
+            <h1>Título H1</h1>
+            <h2>Título H2</h2>
+            <h3>Título H3</h3>
+            <h4>Título H4</h4>
+            <h5>Título H5</h5>
+            <h6>Título H6</h6>
+            <p>Este es un párrafo de texto normal.</p>
+            <a href="#">Enlace normal</a><br>
+            <a href="#" class="visited">Enlace visitado</a><br>
+            <blockquote>
+                "Este es un bloque de cita. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            </blockquote>
+        </div>
+    </div>
+</body>
+</html>

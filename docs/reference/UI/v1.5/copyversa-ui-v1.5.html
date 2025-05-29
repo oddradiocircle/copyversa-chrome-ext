@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CopyVersa | Interfaz Completa</title>
+    <link rel="stylesheet" href="cpvrsa-ds-tm.css">  </head>
+<body>
+    <copyversa-panel></copyversa-panel>
+
+    <script>
+        class CopyVersaPanel extends HTMLElement {
+            constructor() {
+                super();
+                const shadow = this.attachShadow({ mode: 'open' });
+
+                // Clonar el CSS y adjuntarlo al shadow DOM
+                const styleSheet = document.querySelector('link[href="cpvrsa-ds-tm.css"]');
+                const clonedStyleSheet = styleSheet.cloneNode(true);
+                shadow.appendChild(clonedStyleSheet);
+
+                const template = document.createElement('template');
+                template.innerHTML = `
+                    <div class="copyversa-panel radius-lg is-active">
+                        <div class="panel-header">
+                            <h3 class="panel-title">CopyVersa</h3>
+                            <button class="button button-icon button-icon-primary button-icon-close button-round" id="copyversa-exit" aria-label="Exit"></button>
+                        </div>
+
+                        <div class="field">
+                            <label class="label is-small">Modo de copia</label>
+                            <div class="button-group">
+                                <button class="button button-icon button-icon-copy-single is-fullwidth button-selected" id="copyversa-single">
+                                    <span>Único</span>
+                                </button>
+                                <button class="button button-icon button-icon-copy-multi is-fullwidth button-icon-primary" id="copyversa-multi">
+                                    <span>Múltiple</span>
+                                </button>
+                            </div>
+                            <button class="button button-icon button-icon-check is-fullwidth mt-4" id="copyversa-finish" disabled style="display: none;">
+                                <span>Finalizar selección y copiar</span>
+                            </button>
+                        </div>
+
+                        <div class="field">
+                            <label class="label is-small">Formato de copia</label>
+                            <div class="button-group">
+                                <button class="button button-icon button-icon-markdown is-fullwidth button-selected" id="copyversa-markdown">
+                                    <span>Markdown</span>
+                                </button>
+                                <button class="button button-icon button-icon-html is-fullwidth button-icon-primary" id="copyversa-html">
+                                    <span>HTML</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <button class="button button-icon button-icon-secondary button-icon-settings is-fullwidth mt-4" id="copyversa-settings">
+                                <span>Ajustes rápidos</span>
+                            </button>
+
+                            <div class="mt-4" id="copyversa-settings-panel" style="display: none;">
+                                <div class="field">
+                                    <label class="checkbox">
+                                        <input type="checkbox" class="checkbox-input" id="copyversa-remove-links">
+                                        <span>Eliminar enlaces del Markdown</span>
+                                    </label>
+                                </div>
+
+                                <div class="level is-mobile mb-2">
+                                    <div class="level-left">
+                                        <label class="checkbox">
+                                            <input type="checkbox" class="checkbox-input" id="copyversa-preserve-semantics" checked>
+                                            <span>Preservar semántica HTML</span>
+                                        </label>
+                                    </div>
+                                    <div class="level-right">
+                                        <button class="button button-icon-tertiary is-small" id="copyversa-select-semantics">Seleccionar</button>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="checkbox">
+                                        <input type="checkbox" class="checkbox-input" id="copyversa-exit-after" checked>
+                                        <span>Salir después de copiar</span>
+                                    </label>
+                                </div>
+
+                                <div class="level is-mobile">
+                                    <div class="level-left">
+                                        <label class="icon-text">
+                                            <span class="icon button-icon-keyboard"></span>
+                                            <span>Atajo: Ctrl+Shift+X</span>
+                                        </label>
+                                    </div>
+                                    <div class="level-right">
+                                        <button class="button button-icon-tertiary is-small" id="copyversa-change-shortcut">Cambiar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feedback-message">
+                        Copiado al portapapeles
+                    </div>
+                `;
+                                shadow.appendChild(template.content.cloneNode(true));
+
+                // Obtener referencias a los elementos del DOM dentro del shadow DOM
+                const multiButton = shadow.getElementById('copyversa-multi');
+                const singleButton = shadow.getElementById('copyversa-single');
+                const finishButton = shadow.getElementById('copyversa-finish');
+                const settingsButton = shadow.getElementById('copyversa-settings');
+                const settingsPanel = shadow.getElementById('copyversa-settings-panel');
+                const markdownButton = shadow.getElementById('copyversa-markdown');
+                const htmlButton = shadow.getElementById('copyversa-html');
+                const exitButton = shadow.getElementById('copyversa-exit'); // Obtener el botón de salida
+
+                // Variable para controlar si hay elementos seleccionados
+                let itemsSelected = 0;
+
+                // Funciones para manejar el almacenamiento local
+                const saveState = () => {
+                    const state = {
+                        mode: singleButton.classList.contains('button-selected') ? 'single' : 'multi',
+                        format: markdownButton.classList.contains('button-selected') ? 'markdown' : 'html',
+                        settingsPanelVisible: settingsPanel.style.display === 'block',
+                        removeLinks: shadow.getElementById('copyversa-remove-links').checked,
+                        preserveSemantics: shadow.getElementById('copyversa-preserve-semantics').checked,
+                        exitAfter: shadow.getElementById('copyversa-exit-after').checked
+                    };
+                    localStorage.setItem('copyversaState', JSON.stringify(state));
+                };
+
+                const loadState = () => {
+                    const state = JSON.parse(localStorage.getItem('copyversaState'));
+                    if (state) {
+                        // Restaurar el modo de copia
+                        if (state.mode === 'multi') {
+                            multiButton.click();
+                        } else {
+                            singleButton.click();
+                        }
+
+                        // Restaurar el formato de copia
+                        if (state.format === 'html') {
+                            htmlButton.click();
+                        } else {
+                            markdownButton.click();
+                        }
+
+                        // Restaurar la visibilidad del panel de ajustes rápidos
+                        settingsPanel.style.display = state.settingsPanelVisible ? 'block' : 'none';
+                        if (state.settingsPanelVisible) {
+                            settingsButton.classList.remove('button-icon-secondary');
+                            settingsButton.classList.add('button-tertiary');
+                        } else {
+                            settingsButton.classList.add('button-icon-secondary');
+                            settingsButton.classList.remove('button-tertiary');
+                        }
+
+                        // Restaurar las opciones de ajustes rápidos
+                        shadow.getElementById('copyversa-remove-links').checked = state.removeLinks || false; // Valor por defecto: false
+                        shadow.getElementById('copyversa-preserve-semantics').checked = state.preserveSemantics || true; // Valor por defecto: true
+                        shadow.getElementById('copyversa-exit-after').checked = state.exitAfter || true; // Valor por defecto: true
+
+                    } else {
+                        // Valores por defecto si no hay estado guardado
+                        settingsPanel.style.display = 'none';
+                        settingsButton.classList.add('button-icon-secondary');
+                        settingsButton.classList.remove('button-tertiary');
+                    }
+                };
+
+                // Cargar el estado al inicializar
+                loadState();
+
+                // Event listener para el botón "Multi"
+                multiButton.addEventListener('click', function() {
+                    this.classList.add('button-selected');
+                    this.classList.remove('button-icon-primary');
+                    singleButton.classList.remove('button-selected');
+                    singleButton.classList.add('button-icon-primary');
+                    finishButton.style.display = 'block';
+                    finishButton.disabled = true; // Deshabilitar inicialmente en modo múltiple
+                    itemsSelected = 0; // Reiniciar contador de elementos seleccionados
+                    saveState();
+                });
+
+                // Event listener para el botón "Single"
+                singleButton.addEventListener('click', function() {
+                    this.classList.add('button-selected');
+                    this.classList.remove('button-icon-primary');
+                    multiButton.classList.remove('button-selected');
+                    multiButton.classList.add('button-icon-primary');
+                    finishButton.style.display = 'none';
+                    finishButton.disabled = true;
+                    saveState();
+                });
+
+                // Función para simular la selección de elementos (reemplázala con tu lógica real)
+                const simulateSelection = () => {
+                    itemsSelected++;
+                    if (itemsSelected > 0) {
+                        finishButton.disabled = false;
+                    } else {
+                        finishButton.disabled = true;
+                    }
+                }
+
+                // Función para simular la deselección de elementos (reemplázala con tu lógica real)
+                const simulateDeselection = () => {
+                    itemsSelected--;
+                    if (itemsSelected <= 0) {
+                        finishButton.disabled = true;
+                        itemsSelected = 0; // Evitar valores negativos
+                    }
+                }
+
+                // Event listener para el botón "Finalizar selección y copiar"
+                finishButton.addEventListener('click', function() {
+                    // ... (tu lógica para copiar los elementos seleccionados)
+
+                    // Después de copiar, si "exitAfter" está activado, simular clic en "copyversa-exit"
+                    if (shadow.getElementById('copyversa-exit-after').checked) {
+                        exitButton.click(); // Usar la variable exitButton
+                    }
+                });
+
+                // Event listeners para los botones de formato
+                markdownButton.addEventListener('click', function() {
+                    this.classList.add('button-selected');
+                    this.classList.remove('button-icon-primary');
+                    htmlButton.classList.remove('button-selected');
+                    htmlButton.classList.add('button-icon-primary');
+                    saveState();
+                });
+
+                htmlButton.addEventListener('click', function() {
+                    this.classList.add('button-selected');
+                    this.classList.remove('button-icon-primary');
+                    markdownButton.classList.remove('button-selected');
+                    markdownButton.classList.add('button-icon-primary');
+                    saveState();
+                });
+
+                // Event listener para el botón "Ajustes rápidos"
+                settingsButton.addEventListener('click', function() {
+                    settingsPanel.style.display = settingsPanel.style.display === 'none' ? 'block' : 'none';
+                    this.classList.toggle('button-tertiary');
+                    this.classList.toggle('button-icon-secondary');
+                    saveState();
+                });
+
+                // Guardar el estado de los checkboxes al cambiar
+                shadow.getElementById('copyversa-remove-links').addEventListener('change', saveState);
+                shadow.getElementById('copyversa-preserve-semantics').addEventListener('change', saveState);
+                shadow.getElementById('copyversa-exit-after').addEventListener('change', saveState);
+
+                // Event listener para el botón de salir
+                exitButton.addEventListener('click', () => { // Usar la variable exitButton
+                    // Aquí puedes añadir la lógica para ocultar el panel o salir del modo de selección
+                    // Por ejemplo:
+                    this.closest('.copyversa-panel').style.display = 'none'; // Oculta el panel
+                });
+            }
+        }
+
+        customElements.define('copyversa-panel', CopyVersaPanel);
+
+    </script>
+</body>
+</html>
