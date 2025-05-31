@@ -79,7 +79,6 @@ class CopyVersaContentScript {
       await this.activate()
     }
   }
-
   private async activate(): Promise<void> {
     if (this.isActive) return
 
@@ -93,11 +92,15 @@ class CopyVersaContentScript {
       this.isActive = true
       document.body.classList.add('copyversa-active')
       
-      // Notify background script
-      chrome.runtime.sendMessage({ 
-        type: 'COPYVERSA_ACTIVATED',
-        url: window.location.href 
-      })
+      // Notify background script (with error handling)
+      try {
+        chrome.runtime.sendMessage({ 
+          type: 'COPYVERSA_ACTIVATED',
+          url: window.location.href 
+        })
+      } catch (error) {
+        console.warn('⚠️ Failed to notify background script of activation:', error)
+      }
       
       console.info('✅ CopyVersa Activated')
     } catch (error) {
@@ -119,12 +122,15 @@ class CopyVersaContentScript {
       
       this.isActive = false
       document.body.classList.remove('copyversa-active')
-      
-      // Notify background script
-      chrome.runtime.sendMessage({ 
-        type: 'COPYVERSA_DEACTIVATED',
-        url: window.location.href 
-      })
+        // Notify background script (with error handling)
+      try {
+        chrome.runtime.sendMessage({ 
+          type: 'COPYVERSA_DEACTIVATED',
+          url: window.location.href 
+        })
+      } catch (error) {
+        console.warn('⚠️ Failed to notify background script of deactivation:', error)
+      }
       
       console.info('✅ CopyVersa Deactivated')
     } catch (error) {

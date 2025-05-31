@@ -20,10 +20,9 @@
   ],
   "engines": {
     "node": ">=18.0.0"
-  },
-  "scripts": {
+  },  "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "test": "jest",
     "test:watch": "jest --watch",

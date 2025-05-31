@@ -41,11 +41,11 @@ export default defineManifest({
       ],
       matches: ['<all_urls>'],
     },
-  ],
-  permissions: [
+  ],  permissions: [
     'storage',
     'activeTab',
-    'clipboardWrite'
+    'clipboardWrite',
+    'tabs'
   ],
   commands: {
     activate_copyversa: {

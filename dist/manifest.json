@@ -21,14 +21,14 @@
   "content_scripts": [
     {
       "js": [
-        "assets/index.ts-loader-CzndjV5Y.js"
+        "assets/index.ts-loader-q_mIUnxG.js"
       ],
       "matches": [
         "<all_urls>"
       ],
       "css": [
         "src/contentScript/styles.css",
-        "assets/index-D5giiajG.css"
+        "assets/index-dmm3X6TY.css"
       ],
       "run_at": "document_idle"
     }
@@ -44,7 +44,7 @@
         "img/logo-48.png",
         "img/logo-128.png",
         "assets/chunk-DTl7Fbt_.js",
-        "assets/chunk-COjCpS_a.js"
+        "assets/chunk-B4f3HD9j.js"
       ],
       "use_dynamic_url": false
     }
@@ -52,7 +52,8 @@
   "permissions": [
     "storage",
     "activeTab",
-    "clipboardWrite"
+    "clipboardWrite",
+    "tabs"
   ],
   "commands": {
     "activate_copyversa": {

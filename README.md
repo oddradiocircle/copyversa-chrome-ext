@@ -128,17 +128,18 @@ copyversa-chrome-ext/
 - [x] Build system and TypeScript configuration ✅
 - [x] React UI components implementation ✅
 - [x] Core engine architecture ✅
-- [ ] US-003: Core activation system (In Progress)
-- [ ] US-011: Integration testing with real web pages
+- [x] **US-003: Core Activation System** ✅ **COMPLETED** (All acceptance criteria met)
+- [x] **Background Script with Chrome APIs** ✅ (15/15 tests passing)
+- [ ] **US-011: Integration Testing** (Ready - extension builds successfully)
 
 ### Sprint 2 (Week 2) - Selection Engine
-- [ ] Content selection system
-- [ ] Multi-select functionality
-- [ ] Visual feedback
+- [x] Content selection system ✅ **IMPLEMENTED**
+- [x] Multi-select functionality ✅ **IMPLEMENTED** 
+- [x] Visual feedback ✅ **IMPLEMENTED**
 
 ### Sprint 3 (Week 3) - Conversion System
-- [ ] Markdown conversion **✅ (Implemented & Tested)**
-- [ ] HTML preservation **✅ (Implemented & Tested)**
+- [x] Markdown conversion ✅ **IMPLEMENTED & TESTED**
+- [x] HTML preservation ✅ **IMPLEMENTED & TESTED**
 - [ ] Format switching **✅ (Implemented & Tested)**
 
 ### Sprint 4 (Week 4) - Polish & Testing

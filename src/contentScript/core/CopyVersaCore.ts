@@ -99,16 +99,27 @@ export class CopyVersaCore {
       console.error('Failed to update panel content:', error)
       this.panelUI.updatePreview('Error converting content', this.settings.defaultFormat)
     }
-  }
+  }  private async handleFormatChange(format: 'markdown' | 'html' | 'text'): Promise<void> {
+    try {
+      // Update settings
+      this.settings.defaultFormat = format
+      await this.storageManager.updateSettings({ defaultFormat: format })
 
-  private async handleFormatChange(format: 'markdown' | 'html' | 'text'): Promise<void> {
-    // Update settings
-    this.settings.defaultFormat = format
-    await this.storageManager.updateSettings({ defaultFormat: format })
-
-    // Update preview with new format
-    const selectedElements = this.selectionEngine.getSelectedElements()
-    await this.updatePanelContent(selectedElements)
+      // Update preview with new format
+      const selectedElements = this.selectionEngine.getSelectedElements()
+      await this.updatePanelContent(selectedElements)
+    } catch (error) {
+      // Handle extension context invalidation gracefully
+      if (error instanceof Error && error.message?.includes('Extension context invalidated')) {
+        console.warn('⚠️ Extension context invalidated during format change, continuing locally...')
+        // Continue with local settings update
+        this.settings.defaultFormat = format
+        const selectedElements = this.selectionEngine.getSelectedElements()
+        await this.updatePanelContent(selectedElements)
+        return
+      }
+      console.error('Failed to save settings:', error)
+    }
   }
 
   private async handleCopy(): Promise<void> {
@@ -139,10 +150,13 @@ export class CopyVersaCore {
       this.panelUI.showMessage('Failed to copy content', 'error')
     }
   }
-
   private handleClose(): void {
-    // Notify parent to deactivate
-    chrome.runtime.sendMessage({ type: 'DEACTIVATE_REQUEST' })
+    // Notify parent to deactivate (with error handling)
+    try {
+      chrome.runtime.sendMessage({ type: 'DEACTIVATE_REQUEST' })
+    } catch (error) {
+      console.warn('⚠️ Failed to send deactivate request to background script:', error)
+    }
   }
 
   private async handleSettingsChange(updates: Partial<CopyVersaSettings>): Promise<void> {
