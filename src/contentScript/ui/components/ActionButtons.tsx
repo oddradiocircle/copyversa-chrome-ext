@@ -70,14 +70,14 @@ export const ActionButtons: React.FC<Props> = ({
         </button>
       </div>
 
-      <div className="copyversa-actions-right">
-        <button
+      <div className="copyversa-actions-right">        <button
           className={`copyversa-button copyversa-button-primary ${
             !hasContent ? 'disabled' : ''
           }`}
           onClick={onCopy}
           disabled={!hasContent}
           title="Copy to clipboard (Enter)"
+          data-testid="copy-button"
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <rect

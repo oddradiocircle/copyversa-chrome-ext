@@ -150,11 +150,11 @@ export const CopyVersaPanel: React.FC<Props> = ({
               />
             </svg>
           </button>
-          
-          <button
+            <button
             className="copyversa-button copyversa-button-ghost"
             onClick={onClose}
             title="Close (Esc)"
+            data-testid="close-button"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path

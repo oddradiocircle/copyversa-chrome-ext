@@ -100,14 +100,10 @@ describe('CopyVersaPanel', () => {
         onClose={mockOnClose}
         onSettingsChange={mockOnSettingsChange}
       />
-    );
-
-    // Look for copy button
-    const copyButton = screen.queryByText(/copy/i) || screen.queryByRole('button', { name: /copy/i });
-    if (copyButton) {
-      fireEvent.click(copyButton);
-      expect(mockOnCopy).toHaveBeenCalled();
-    }
+    );    // Look for copy button using specific selector
+    const copyButton = screen.getByTestId('copy-button');
+    fireEvent.click(copyButton);
+    expect(mockOnCopy).toHaveBeenCalled();
   });
 
   it('calls onClose when close action is triggered', () => {
@@ -121,16 +117,10 @@ describe('CopyVersaPanel', () => {
         onClose={mockOnClose}
         onSettingsChange={mockOnSettingsChange}
       />
-    );
-
-    // Look for close button
-    const closeButton = screen.queryByText(/close/i) || 
-                      screen.queryByRole('button', { name: /close/i }) ||
-                      screen.queryByLabelText(/close/i);
-    if (closeButton) {
-      fireEvent.click(closeButton);
-      expect(mockOnClose).toHaveBeenCalled();
-    }
+    );    // Look for close button using specific selector
+    const closeButton = screen.getByTestId('close-button');
+    fireEvent.click(closeButton);
+    expect(mockOnClose).toHaveBeenCalled();
   });
 
   it('handles empty content state', () => {
