@@ -6,7 +6,7 @@
 import { StorageManager, CopyVersaSettings } from './StorageManager'
 import { SelectionEngine, SelectionChangeCallback } from './SelectionEngine'
 import { ConversionEngine } from './ConversionEngine'
-import { PanelUI } from '../ui/PanelUI'
+import { PanelUI } from '../ui/PanelUI.js'
 
 export class CopyVersaCore {
   private storageManager: StorageManager
