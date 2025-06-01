@@ -4,7 +4,7 @@
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/copyversa.svg)](https://chrome.google.com/webstore/detail/copyversa)
 [![Build Status](https://github.com/oddradiocircle/copyversa-chrome-ext/workflows/CI/badge.svg)](https://github.com/oddradiocircle/copyversa-chrome-ext/actions)
 
-CopyVersa v2 is a powerful Chrome extension that allows you to select and copy content from web pages in multiple formats (Markdown, HTML, and Plain Text) with an intuitive visual interface. This is a complete rewrite of the popular CopyVersa userscript, now as a native Chrome extension.
+CopyVersa v2 is a powerful Chrome extension that allows you to select and copy content from web pages in multiple formats (Markdown, HTML, and Plain Text) with an intuitive visual interface. This is a complete rewrite of the CopyVersa userscript, now as a native Chrome extension.
 
 ## ✨ Features
 
