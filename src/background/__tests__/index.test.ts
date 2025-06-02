@@ -12,10 +12,10 @@ describe('Background Script', () => {
     // Reset all mocks
     jest.resetModules()
     jest.clearAllMocks()
-    
-    // Create fresh chrome mocks for each test
+      // Create fresh chrome mocks for each test
     mockChrome = {
       runtime: {
+        id: 'test-extension-id', // Add extension ID to prevent invalidation
         onStartup: { addListener: jest.fn() },
         onInstalled: { addListener: jest.fn() },
         onMessage: { addListener: jest.fn() },

@@ -77,9 +77,13 @@ export class SelectionEngine {
   updateSettings(settings: CopyVersaSettings): void {
     this.settings = settings
   }
-
   private handleMouseMove(event: MouseEvent): void {
     if (!this.isActive) return
+
+    // Skip CopyVersa UI elements to allow panel interactions
+    if ((event.target as Element).closest('.copyversa-ui')) {
+      return
+    }
 
     event.preventDefault()
     event.stopPropagation()
@@ -90,23 +94,35 @@ export class SelectionEngine {
       this.setHover(element)
     }
   }
-
   private handleMouseDown(event: MouseEvent): void {
     if (!this.isActive) return
     
-    event.preventDefault()
-    event.stopPropagation()
-  }
-
-  private handleMouseUp(event: MouseEvent): void {
-    if (!this.isActive) return
+    // Skip CopyVersa UI elements to allow panel interactions
+    if ((event.target as Element).closest('.copyversa-ui')) {
+      return
+    }
     
     event.preventDefault()
     event.stopPropagation()
   }
-
+  private handleMouseUp(event: MouseEvent): void {
+    if (!this.isActive) return
+    
+    // Skip CopyVersa UI elements to allow panel interactions
+    if ((event.target as Element).closest('.copyversa-ui')) {
+      return
+    }
+    
+    event.preventDefault()
+    event.stopPropagation()
+  }
   private handleClick(event: MouseEvent): void {
     if (!this.isActive) return
+
+    // Skip CopyVersa UI elements to allow panel interactions
+    if ((event.target as Element).closest('.copyversa-ui')) {
+      return
+    }
 
     event.preventDefault()
     event.stopPropagation()

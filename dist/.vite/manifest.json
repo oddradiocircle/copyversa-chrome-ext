@@ -14,7 +14,7 @@
     "name": "client"
   },
   "index.ts-loader.js": {
-    "file": "assets/index.ts-loader-q_mIUnxG.js",
+    "file": "assets/index.ts-loader-BeFL_Q7u.js",
     "src": "index.ts-loader.js"
   },
   "options.html": {
@@ -50,7 +50,7 @@
     "isEntry": true
   },
   "src/contentScript/index.ts": {
-    "file": "assets/chunk-B4f3HD9j.js",
+    "file": "assets/chunk-DOhFt3F4.js",
     "name": "index.ts",
     "src": "src/contentScript/index.ts",
     "isEntry": true,
